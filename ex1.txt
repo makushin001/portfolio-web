@@ -1,0 +1,366 @@
+
+
+how do i erase session data after i used it?
+
+To erase session data after you've used it, you can use the unset() function in PHP. This function allows you to unset a specified variable. Here's how you can do it:
+
+<?php
+// Access the session data
+$year = $_SESSION['year'];
+$month = $_SESSION['month'];
+
+// Use the data
+// ...
+
+// Now unset the session data
+unset($_SESSION['year']);
+unset($_SESSION['month']);
+?>
+In this code, unset($_SESSION['year']); and unset($_SESSION['month']); will remove the 'year' and 'month' data from the session after it's been used.
+
+Remember to call session_start() at the beginning of your PHP file if you're using session variables.
+
+
+
+
+
+
+
+
+unset session if only the variables exist function unsetSession() { unset($_SESSION['year']); unset($_SESSION['month']); exit(); }
+
+
+
+You can check if the session variables exist before unsetting them using the isset() function in PHP. Here's how you can modify your unsetSession() function:
+
+;
+In this version of the function, isset($_SESSION['year']) checks if the 'year' session variable exists before unsetting it, and isset($_SESSION['month']) checks if the 'month' session variable exists before unsetting it. If the variables don't exist, the unset() function won't be called for them.
+function unsetSession() {
+    if (isset($_SESSION['year'])) {
+        unset($_SESSION['year']);
+    }
+    if (isset($_SESSION['month'])) {
+        unset($_SESSION['month']);
+    }
+    exit();
+}
+
+
+
+
+Write me an sql querry using php that will retrieve data from the database table with name POSTS, with the folowing fields: id, title, content, date, time and where the date is within the interval 2023-04-01 upto 2023-05-01
+<?php
+$servername = "your_server_name";
+$username = "your_username";
+$password = "your_password";
+$dbname = "your_database_name";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT id, title, content, date, time FROM POSTS WHERE date BETWEEN '2023-04-01' AND '2023-05-01'";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "id: " . $row["id"]. " - Title: " . $row["title"]. " - Content: " . $row["content"]. " - Date: " . $row["date"]. " - Time: " . $row["time"]. "<br>";
+    }
+} else {
+    echo "0 results";
+}
+$conn->close();
+?>
+
+
+
+
+is there anything wrong here ? 
+$posts = array(); 
+if (isset($_SESSION['year'])){ 
+    $posts = retrieveEntryFromDB('2024-04-05', '2024-04-05'); 
+}else if (isset($_SESSION['month'])){ 
+    $posts = retrieveEntryFromDB('2024-04-05', '2024-04-05'); 
+}else if(isset($_SESSION['year']) && isset($_SESSION['month']){ 
+    $posts = retrieveEntryFromDB($_SESSION['year'].'-'.$_SESSION['month'].'-01', $_SESSION['year'].'-'.$_SESSION['month'].'31'); 
+}else{ 
+    $posts = retrieveEntryFromDB(null, null); 
+}
+
+
+
+
+
+Yes, there are a couple of issues with the code you've posted:
+
+Missing closing parenthesis: In the third if condition, you're missing a closing parenthesis. It should be isset($_SESSION['year']) && isset($_SESSION['month']).
+
+Logical order of conditions: The third if condition will never be reached because if $_SESSION['year'] or $_SESSION['month'] is set, one of the first two conditions will be true. You should check if both $_SESSION['year'] and $_SESSION['month'] are set first.
+
+Date formatting: In the third if condition, you're appending '31' to the year and month to get the last day of the month. This will not work for months that have less than 31 days.
+
+<?php
+$posts = array();
+if (isset($_SESSION['year']) && isset($_SESSION['month'])) {
+    $lastDayOfMonth = date('Y-m-t', strtotime($_SESSION['year'].'-'.$_SESSION['month'].'-01'));
+    $posts = retrieveEntryFromDB($_SESSION['year'].'-'.$_SESSION['month'].'-01', $lastDayOfMonth);
+} else if (isset($_SESSION['year'])) {
+    $posts = retrieveEntryFromDB('2024-04-05', '2024-04-05');
+} else if (isset($_SESSION['month'])) {
+    $posts = retrieveEntryFromDB('2024-04-05', '2024-04-05');
+} else {
+    $posts = retrieveEntryFromDB(null, null);
+}
+?>
+
+
+
+
+
+
+Now create me a method that would concatenate month and year of type string e.g 04, 2024 to a date with the first date being 2024-04-01, and the last date will be the last date in that month, and than it will return two strings as an array with keys beginDate and endDate.
+
+
+Here's a function that takes a month and a year as strings, constructs the first and last dates of that month, and returns them as an array with keys 'beginDate' and 'endDate':
+
+function getBeginAndEndDate($month, $year) {
+    $beginDate = $year . '-' . $month . '-01';
+    $endDate = date('Y-m-t', strtotime($beginDate));
+    return array('beginDate' => $beginDate, 'endDate' => $endDate);
+}
+You can use this function like this:
+<?php
+$dates = getBeginAndEndDate('04', '2024');
+print_r($dates);
+?>
+
+This will output:
+Array
+(
+    [beginDate] => 2024-04-01
+    [endDate] => 2024-04-30
+)
+This function uses the date and strtotime functions to calculate the last day of the month. The 't' format character in the date function represents the number of days in the given month.
+
+
+
+
+
+
+
+
+
+Second Function index.php
+
+create a php code that would have a button add comment to the blog this button should only appaer for users that have Session["isAdmin"] set to 0 otherwise if the Session["isAdmin"] is set to 1 create edit button; if no Session["isAdmin"] set than show add comment
+
+
+<?php 
+if (isset($_SESSION['isAdmin'])) {
+    if ($_SESSION['isAdmin'] == 0) {
+        // Show "Add Comment" button for non-admin users
+        ?>
+        <form action="comment_form.php" method="post">
+            <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
+            <input type="submit" value="Add Comment">
+        </form>
+        <?php
+    } elseif ($_SESSION['isAdmin'] == 1) {
+        // Show "Edit" button for admin users
+        ?>
+        <form action="blog_form.php" method="post">
+            <input type="hidden" name="edit" value="<?php echo $post['id']; ?>">
+            <input type="submit" value="Edit">
+        </form>
+        <?php
+    }
+} else {
+    // Show "Add Comment" button if no isAdmin session is set
+    ?>
+    <form action="comment_form.php" method="post">
+        <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
+        <input type="submit" value="Add Comment">
+    </form>
+    <?php
+}
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+Write me a java script function that sends a data using POST method, so that i can access it through php. The data should be retrieved by asking users to enter comment below using window.prompt().
+
+function postComment(e) {
+    var comment = window.prompt("Please enter your comment below:");
+    if (comment) {
+        fetch('comment_form.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'comment=' + encodeURIComponent(comment),
+        })
+        .then(response => response.text())
+        .then(data => console.log(data))
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }else{
+        e.preventDefault();
+    }
+}
+
+
+Now write me a php function that would retrieve comment that was sent to the server using post method and print it out.
+
+<?php
+function retrieveComment() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['comment'])) {
+            $comment = $_POST['comment'];
+            echo $comment;
+        }
+    }
+}
+
+retrieveComment();
+
+
+
+
+
+
+
+CREATE TABLE COMMENTS (
+    id INT AUTO_INCREMENT,
+    postID INT,
+    comment TEXT,
+    date DATE,
+    time TIME,
+    fname VARCHAR(255),
+    lname VARCHAR(255),
+    PRIMARY KEY (id)
+);
+
+
+
+
+is this function correct ?
+function retrieveCommentsFromDB($postID) {
+                                            $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+                                            if ($conn->connect_error) {
+                                                die("Connection failed: " . $conn->connect_error);
+                                            } else {
+                                                $sql = "SELECT comment, date, time, fname, lname FROM COMMENTS WHERE postID='$postID'";
+                                                $result = $conn->query($sql);
+                                                if ($result->num_rows > 0) {
+                                                    $comments = array();
+                                                    while($row = $result->fetch_assoc()) {
+                                                        $comments[] = $row;
+                                                    }
+                                                    return $comments;
+                                                } else {
+                                                    return array(array("comment" => "Nan", "date" => "", "time" => "", "fname" => "", "lname" => ""));
+                                                }
+                                                $conn->close();
+                                            }
+                                        }
+
+
+
+<?php
+function retrieveCommentsFromDB($postID) {
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } else {
+        $sql = "SELECT comment, date, time, fname, lname FROM COMMENTS WHERE postID=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $postID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $comments = array();
+            while($row = $result->fetch_assoc()) {
+                $comments[] = $row;
+            }
+            return $comments;
+        } else {
+            return array(array("comment" => "Nan", "date" => "", "time" => "", "fname" => "", "lname" => ""));
+        }
+        $conn->close();
+    }
+}
+?>
+
+
+
+
+Create a sorting algorithm, that sorts blog entries by date and time. The algorithm should be able to sort in order with the newest at the beginning of an array and latest in the end of an array. Please sort an array using merge sort. Write code in php. The data on which you would perform sort will be an assosiative array of this format: array(array("id" => "0", "title" => "No posts available at selected date", "content" => "", "date" => "", "time" => ""))
+
+
+<?php
+function mergeSort($data) {
+    if(count($data) <= 1) {
+        return $data;
+    }
+
+    $middle = count($data) / 2;
+    $left = array_slice($data, 0, $middle);
+    $right = array_slice($data, $middle);
+
+    $left = mergeSort($left);
+    $right = mergeSort($right);
+
+    return merge($left, $right);
+}
+
+function merge($left, $right) {
+    $result = array();
+    $leftIndex = 0;
+    $rightIndex = 0;
+
+    while($leftIndex < count($left) && $rightIndex < count($right)) {
+        $leftDate = strtotime($left[$leftIndex]['date'] . ' ' . $left[$leftIndex]['time']);
+        $rightDate = strtotime($right[$rightIndex]['date'] . ' ' . $right[$rightIndex]['time']);
+
+        if($leftDate > $rightDate) {
+            $result[] = $left[$leftIndex];
+            $leftIndex++;
+        } else {
+            $result[] = $right[$rightIndex];
+            $rightIndex++;
+        }
+    }
+
+    while($leftIndex < count($left)) {
+        $result[] = $left[$leftIndex];
+        $leftIndex++;
+    }
+
+    while($rightIndex < count($right)) {
+        $result[] = $right[$rightIndex];
+        $rightIndex++;
+    }
+
+    return $result;
+}
+
+$posts = array(array("id" => "0", "title" => "No posts available at selected date", "content" => "", "date" => "2023-01-01", "time" => "12:00:00"));
+$sortedPosts = mergeSort($posts);

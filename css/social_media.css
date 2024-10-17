@@ -1,0 +1,90 @@
+.buttons-social-media{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.button-social-media{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: 100%;
+  text-decoration: none;
+  font-size: 30px;
+  background-color: #fff;
+  transition: color 0.5s, background-color 0.5s;
+}
+
+.button-facebook:focus, .button-facebook:hover{
+  color: #fff;
+  background-color: #3b5999;
+  box-shadow: 0px 0px 7px rgba(0,0,0,0.75);
+}
+.button-facebook{
+  color: #3b5999;
+}
+
+
+.button-linkedin:focus, .button-linkedin:hover{
+  color: #fff;
+  background: #0077b5;
+  box-shadow: 0px 0px 7px rgba(0,0,0,0.75);
+}
+.button-linkedin{
+  color: #0077b5;
+}
+
+
+.button-gmail:focus, .button-gmail:hover{
+  color: #fff;
+  background: linear-gradient(
+    to bottom,
+    #3870EA,#1DA0F7,#1AC7FB
+  );
+  box-shadow: 0px 0px 7px rgba(0,0,0,0.75);
+}
+.button-gmail{
+  color: #3870EA
+}
+
+
+.button-github:focus, .button-github:hover{
+  color: #fff;
+  background: #6e5494;
+  box-shadow: 0px 0px 7px rgba(0,0,0,0.75);
+}
+.button-github{
+  color: #6e5494;
+}
+
+
+.button-instagram:focus, .button-instagram:hover{
+  color: #fff;
+  background: linear-gradient(
+    to right,
+    #833ab4,#fd1d1d,#fcb045
+  );
+  box-shadow: 0px 0px 7px rgba(0,0,0,0.75);
+}
+
+.button-instagram{
+  color: linear-gradient(
+    to right,
+    #833ab4,#fd1d1d,#fcb045
+  );
+}
+
+.button-telegram:focus, .button-telegram:hover{
+  color: #fff;
+  background: #52A2E4;
+  box-shadow: 0px 0px 7px rgba(0,0,0,0.75);
+}
+.button-telegram{
+  color: #52A2E4;
+}

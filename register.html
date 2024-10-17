@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/social_media.css">
+    <link rel="stylesheet" href="css/register-form.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9acb00af00.js" crossorigin="anonymous"></script>
+    <script src="login.js" defer></script>
+    <title>Login</title>
+</head>
+<body>
+    <form class="login-form" action="register.php" method="post">
+
+        <h1 class="form-heading">Register</h1>
+
+
+        <div class="register-input">
+            <label for="password">Name</label>
+            <div class="img-field-pair">
+                <i class="fa-solid fa-signature"></i>
+                <input type="text" id="fname" name="fname" placeholder="Type your name" required>
+            </div>
+        </div>
+
+        <div class="register-input">
+            <label for="password">Surname</label>
+            <div class="img-field-pair">
+                <i class="fa-solid fa-signature"></i>
+                <input type="text" id="lname" name="lname" placeholder="Type your surname" required>
+            </div>
+        </div>
+
+        <div class="register-input">
+            <label for="password">Email</label>
+            <div class="img-field-pair">
+                <i class="fa-regular fa-user"></i>
+                <input type="email" id="email" name="email" placeholder="Type your username" required>
+            </div>
+        </div>
+  
+        <div class="password-input">
+            <label for="password">Password</label>
+            <div class="img-field-pair">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password" name="password" placeholder="Type your password" required>
+            </div>
+        </div>
+
+        
+
+        <div class="submit-button-div">
+            <input class="submit-button" type="submit" value="Login" name="submit">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+        </div>
+        
+
+        <div class="alternative-login">
+            <p>Or Sign Up Using</p>
+            <div class="buttons-login">
+                <a href="#" class="button-login button-facebook" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="button-login button-gmail" aria-label="Mail">
+                <i class="fa-regular fa-envelope"></i>
+                </a>
+                <a href="#" class="button-login button-github" aria-label="GitHub">
+                <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+
+    </form>
+</body>
+</html>
